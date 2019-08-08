@@ -1,28 +1,34 @@
-
 // proGamerMove();
 
 
-let url = `https://pokeapi.co/api/v2/pokemon/chimchar`;
+// let url = `https://pokeapi.co/api/v2/pokemon/${Math.ceil(Math.random()*800)}`;
 
-fetch(url)
-.then((resp) => resp.json())
-.then(function(data) {
-    console.log(data);
-    let name = data.name;
-    let number = data.id;
-    let types = getTypes(data);
-    let moves = getMoves(data);
-    let abilities = getAbilities(data);
-    let sprite = data.sprites.front_default;
-    let flavorText = data.species.url;
-    let chimchar = new Pokemon(name, number, types, moves, abilities, sprite, flavorText);
-    console.log(chimchar);
-    createPokeElement(chimchar);
-    // document.body.style.backgroundImage = `url(${data.sprites.front_default})`
-    createCarouselItem(chimchar);
-})
-.catch(function(error){ console.log(error)});
 
+
+callPokemonAPI("chimchar")
+
+
+function callPokemonAPI(name)
+{
+    let url = `https://pokeapi.co/api/v2/pokemon/${name}`;
+    fetch(url)
+    .then((resp) => resp.json())
+    .then(function(data) {
+        console.log(data);
+        let name = data.name;
+        let number = data.id;
+        let types = getTypes(data);
+        let moves = getMoves(data);
+        let abilities = getAbilities(data);
+        let sprite = data.sprites.front_default;
+        let flavorText = data.species.url;
+        let pokemon = new Pokemon(name, number, types, moves, abilities, sprite, flavorText);
+        console.log(pokemon);
+        //createPokeElement(pokemon);
+        createCarouselItem(pokemon);
+    })
+    .catch(function(error){ console.log(error)});
+}
 function getTypes(pokeJSON)
 {
     let types = [];
@@ -110,14 +116,20 @@ function createCarouselItem(pokemon)
 {
     //div with carousel-item classs and make img with d-block and w-100
     let carouselItem = document.createElement("div");
-    carouselItem.setAttribute("class", "carousel-item active");
+    carouselItem.setAttribute("class", "carousel-item");
 
     carouselImage = document.createElement("img");
-    carouselImage.setAttribute("class", "d-block w-100");
+    carouselImage.setAttribute("class", "d-block w-50");
     carouselImage.setAttribute("src", pokemon.sprite);
     carouselItem.appendChild(carouselImage);
 
-    document.getElementById("carousel_items").appendChild(carouselItem);
+    var carouselInner = document.getElementsByClassName("carousel-inner")[0];
+    carouselInner.appendChild(carouselItem);
+    for(let i = 1; i < carouselInner.childNodes.length; i++)
+    {
+        carouselInner.childNodes[i].classList.remove("active");
+    }
+    carouselInner.childNodes[1].classList.add("active");
 }
 
 
@@ -145,10 +157,11 @@ function createCarouselItem(pokemon)
 //     let abilities = getAbilities(data);
 //     let sprite = data.sprites.front_default;
 //     let flavorText = data.species.url;
-//     let chimchar = new Pokemon(name, number, types, moves , abilities, sprite, flavorText);
+//     let chimchar = new Pokemon(name, number, types, moves, abilities, sprite, flavorText);
 //     console.log(chimchar);
 //     createPokeElement(chimchar);
-//     // document.body.style.backgroundImage = `url(${data.sprites.front_default})`
+//     document.body.style.backgroundImage = `url(${data.sprites.front_default})`;
+//     createCarouselItem(chimchar);
 // })
 // .catch(function(error){ console.log(error)});
 // }
