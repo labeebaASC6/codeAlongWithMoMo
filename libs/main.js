@@ -11,6 +11,7 @@ fetch(url)
     let abilities = getAbilities(data);
     let chimchar = new Pokemon(name, number, types, moves , abilities);
     console.log(chimchar);
+    createPokeElement(chimchar);
 })
 .catch(function(error){ console.log(error)});
 function getTypes(pokeJSON)
@@ -39,4 +40,40 @@ function getAbilities(pokeJSON)
         abilities.push(ability.ability.name);
     }
     return abilities;
+}
+function createPokeElement(pokemon)
+{
+
+    //do h1 for name
+    let h1 = document.createElement("h1");
+    h1.innerText = pokemon.name;
+    //h2 for nubmer
+    let h2 = document.createElement("h2");
+    h2.innerText = pokemon.number;
+    //type
+    let p = document.createElement('p');
+    for(let type of pokemon.types)
+    {
+        p.innerText += `${type} `;
+    }
+    //ul terior moves
+    let moveUl = document.createElement("ul");
+    for(move of pokemon.moves)
+    {
+        moveUl.innerHTML += `<li>${move}</li>`;
+    }
+    //also abliliteis
+    let ablityUl = document.createElement("ul");
+    for(abilitirityith of pokemon.abilities)
+    {
+        ablityUl.innerHTML += `<li>${abilitirityith}</li>`;
+    }
+    //shove zhe pokymone into a box and post it to html without 'fragile' tag
+    let div = document.createElement("div");
+    div.appendChild(h1);
+    div.appendChild(h2);
+    div.appendChild(p);
+    div.appendChild(moveUl);
+    div.appendChild(ablityUl);
+    document.body.appendChild(div);
 }
