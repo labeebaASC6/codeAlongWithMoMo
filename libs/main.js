@@ -2,7 +2,7 @@
 // proGamerMove();
 
 
-let url = "https://pokeapi.co/api/v2/pokemon/chimchar";
+let url = `https://pokeapi.co/api/v2/pokemon/chimchar`;
 
 fetch(url)
 .then((resp) => resp.json())
@@ -15,10 +15,11 @@ fetch(url)
     let abilities = getAbilities(data);
     let sprite = data.sprites.front_default;
     let flavorText = data.species.url;
-    let chimchar = new Pokemon(name, number, types, moves , abilities, sprite, flavorText);
+    let chimchar = new Pokemon(name, number, types, moves, abilities, sprite, flavorText);
     console.log(chimchar);
     createPokeElement(chimchar);
     // document.body.style.backgroundImage = `url(${data.sprites.front_default})`
+    createCarouselItem(chimchar);
 })
 .catch(function(error){ console.log(error)});
 
@@ -105,7 +106,19 @@ function getFlavorText(flavorURL, callback)
     })
     .catch((err) => console.log(err));
 }
+function createCarouselItem(pokemon)
+{
+    //div with carousel-item classs and make img with d-block and w-100
+    let carouselItem = document.createElement("div");
+    carouselItem.setAttribute("class", "carousel-item active");
 
+    carouselImage = document.createElement("img");
+    carouselImage.setAttribute("class", "d-block w-100");
+    carouselImage.setAttribute("src", pokemon.sprite);
+    carouselItem.appendChild(carouselImage);
+
+    document.getElementById("carousel_items").appendChild(carouselItem);
+}
 
 
 
@@ -120,22 +133,22 @@ function getFlavorText(flavorURL, callback)
 // }
 // function xd(pokeID)
 // {
-//     let urls = "https://pokeapi.co/api/v2/pokemon/";
-
-//     var thisurl = urls + pokeID;
-//     fetch(thisurl)
-//     .then((resp) => resp.json())
-//     .then(function(data) {
-//         console.log(data);
-//         let name = data.name;
-//         let number = data.id;
-//         let types = getTypes(data);
-//         let moves = getMoves(data);
-//         let abilities = getAbilities(data);
-//         let flavorText = data.species.url;
-//         let pokkemon = new Pokemon(name, number, types, moves , abilities, sprite, flavorText);
-//         createPokeElement(pokkemon);
-//         // document.body.style.backgroundImage = `url(${data.sprites.front_default})`
-//     })
-//     .catch(function(error){ console.log(error)});
+//     let urls = "https://pokeapi.co/api/v2/pokemon/" + pokeID;
+// fetch()
+// .then((resp) => resp.json())
+// .then(function(data) {
+//     console.log(data);
+//     let name = data.name;
+//     let number = data.id;
+//     let types = getTypes(data);
+//     let moves = getMoves(data);
+//     let abilities = getAbilities(data);
+//     let sprite = data.sprites.front_default;
+//     let flavorText = data.species.url;
+//     let chimchar = new Pokemon(name, number, types, moves , abilities, sprite, flavorText);
+//     console.log(chimchar);
+//     createPokeElement(chimchar);
+//     // document.body.style.backgroundImage = `url(${data.sprites.front_default})`
+// })
+// .catch(function(error){ console.log(error)});
 // }

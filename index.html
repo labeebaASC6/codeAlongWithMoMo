@@ -16,13 +16,20 @@
     <link rel="stylesheet" href="./libs/style.css">
 </head>
 <body>
-    <div class = "container" id = "poke_container"></div>
     <div class="carousel slide" id = "pokemonCarousel" data-ride="carousel">    <!--initializes carousel-->
-        <div class="carousel-inner"> <!--makes carousel content, insert items (elements) with 'carousel-item active' class-->
+        <div class="carousel-inner" id = "carousel_items"> <!--makes carousel content, insert items (elements) with 'carousel-item active' class-->
+
 
         </div>
-        <a href="#pokemonCarousel" class="carousel-control-prev"></a>
-        <a href="#pokemonCarousel" class="carousel-control-next"></a>
+        <a href="#pokemonCarousel" class="carousel-control-prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a href="#pokemonCarousel" class="carousel-control-next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
     </div>
+    <div class = "container" id = "poke_container"></div>
 </body>
 </html>

@@ -1,6 +1,6 @@
 class Pokemon
 {
-    constructor(name, number, types, moves, abilities, sprite, flavorText)
+    constructor(name, number, types, moves, abilities, sprite, flavorText) //sprite is image
     {
         this.name = name;
         this.number = number;
