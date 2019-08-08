@@ -12,7 +12,7 @@ fetch(url)
     let chimchar = new Pokemon(name, number, types, moves , abilities);
     console.log(chimchar);
 })
-.catch(function(error){});
+.catch(function(error){ console.log(error)});
 function getTypes(pokeJSON)
 {
     let types = [];
