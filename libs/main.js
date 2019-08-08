@@ -14,7 +14,7 @@ fetch(url)
     let moves = getMoves(data);
     let abilities = getAbilities(data);
     let sprite = data.sprites.front_default;
-    let flavorText = getFlavorText(data);
+    let flavorText = data.species.url;
     let chimchar = new Pokemon(name, number, types, moves , abilities, sprite, flavorText);
     console.log(chimchar);
     createPokeElement(chimchar);
@@ -59,40 +59,47 @@ function createPokeElement(pokemon)
     //h2 for nubmer
     let h2 = document.createElement("h2");
     h2.innerText = pokemon.number;
-    //type
-    let p = document.createElement('p');
-    for(let type of pokemon.types)
+    //flavor
+    var flavorDiv = document.createElement('div');
+    getFlavorText(pokemon.flavorText, function(flavorText)  //this anon func is execd when callback is been done did
     {
-        p.innerText += `${type} `;
-    }
-    //ul terior moves
-    let moveUl = document.createElement("ul");
-    for(move of pokemon.moves)
-    {
-        moveUl.innerHTML += `<li>${move}</li>`;
-    }
-    //also abliliteis
-    let ablityUl = document.createElement("ul");
-    for(abilitirityith of pokemon.abilities)
-    {
-        ablityUl.innerHTML += `<li>${abilitirityith}</li>`;
-    }
-    //shove zhe pokymone into a box and post it to html without 'fragile' tag
-    let div = document.createElement("div");
-    div.append(img, h1, h2, p, moveUl, ablityUl);
-    document.body.appendChild(div);
+        flavorDiv.innerHTML = flavorText;
+
+        let p = document.createElement('p');
+        for(let type of pokemon.types)
+        {
+            p.innerText += `${type} `;
+        }
+        //ul terior moves
+        let moveUl = document.createElement("ul");
+        for(move of pokemon.moves)
+        {
+            moveUl.innerHTML += `<li>${move}</li>`;
+        }
+        //also abliliteis
+        let ablityUl = document.createElement("ul");
+        for(abilitirityith of pokemon.abilities)
+        {
+            ablityUl.innerHTML += `<li>${abilitirityith}</li>`;
+        }
+        //shove zhe pokymone into a box and post it to html without 'fragile' tag
+        let div = document.createElement("div");
+        div.append(img, h1, h2, flavorDiv, p, moveUl, ablityUl);
+        document.body.appendChild(div);
+    });
 }
-function getFlavorText(pokeJSON)
+function getFlavorText(flavorURL, callback)
 {
-    let flavorURL = pokeJSON.species.url;
     fetch(flavorURL)
     .then((resp) => resp.json())
     .then((data) => {
-        let text;
         let flavorTextArray = data.flavor_text_entries;
-        for(let flavor_text of flavorTextArray)
+        for(let flavorText of flavorTextArray)
         {
-            console.log(flavor_text);
+            if(flavorText.language.name == "en" && flavorText.version.name == "diamond")
+            {
+                callback(flavorText.flavor_text);   //this apparently returns the results when the thing is loaded, this seems to be a rule for parameters :thonk:
+            }
         }
     })
     .catch((err) => console.log(err));
