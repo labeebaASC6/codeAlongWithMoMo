@@ -4,3 +4,9 @@
 .carousel-control-prev {
     background-color: black;
 }
+.top {
+    position: fixed;
+}
+.container{
+    text-align: center;
+}

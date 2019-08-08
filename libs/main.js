@@ -1,15 +1,17 @@
-// proGamerMove();
+var inputSearch = document.getElementById("pokesearch");
+var search = document.getElementById("search_button");
+search.addEventListener("click", function(){
+    callPokemonAPI(inputSearch.value);
+});
 
 
-// let url = `https://pokeapi.co/api/v2/pokemon/${Math.ceil(Math.random()*800)}`;
-
-
-
-callPokemonAPI("chimchar")
-
-
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function callPokemonAPI(name)
 {
+    if(typeof name != "string" || name.charAt(0) == 0)
+    {
+        name = parseInt(name);
+    }
     let url = `https://pokeapi.co/api/v2/pokemon/${name}`;
     fetch(url)
     .then((resp) => resp.json())
@@ -56,46 +58,6 @@ function getAbilities(pokeJSON)
     }
     return abilities;
 }
-function createPokeElement(pokemon)
-{
-    let img = document.createElement("img");
-    img.setAttribute("src", pokemon.sprite);
-
-    //do h1 for name
-    let h1 = document.createElement("h1");
-    h1.innerText = pokemon.name;
-    //h2 for nubmer
-    let h2 = document.createElement("h2");
-    h2.innerText = pokemon.number;
-    //flavor
-    var flavorDiv = document.createElement('div');
-    getFlavorText(pokemon.flavorText, function(flavorText)  //this anon func is execd when callback is been done did
-    {
-        flavorDiv.innerHTML = flavorText;
-
-        let p = document.createElement('p');
-        for(let type of pokemon.types)
-        {
-            p.innerText += `${type} `;
-        }
-        //ul terior moves
-        let moveUl = document.createElement("ul");
-        for(move of pokemon.moves)
-        {
-            moveUl.innerHTML += `<li>${move}</li>`;
-        }
-        //also abliliteis
-        let ablityUl = document.createElement("ul");
-        for(abilitirityith of pokemon.abilities)
-        {
-            ablityUl.innerHTML += `<li>${abilitirityith}</li>`;
-        }
-        //shove zhe pokymone into a box and post it to html without 'fragile' tag
-        let div = document.createElement("div");
-        div.append(img, h1, h2, flavorDiv, p, moveUl, ablityUl);
-        document.getElementById("poke_container").appendChild(div);
-    });
-}
 function getFlavorText(flavorURL, callback)
 {
     fetch(flavorURL)
@@ -112,7 +74,48 @@ function getFlavorText(flavorURL, callback)
     })
     .catch((err) => console.log(err));
 }
-function createCarouselItem(pokemon)
+function createPokeElement(pokemon, targetNode)
+{
+    //do h1 for name
+    let nameEl = document.createElement("h1");
+    nameEl.innerText = pokemon.name;
+    //h2 for nubmer
+    let numberEl = document.createElement("h4");
+    numberEl.innerText = `Id no. ${pokemon.number}`;
+    //flavor
+    var flavorDiv = document.createElement('div');
+    getFlavorText(pokemon.flavorText, function(flavorText)  //this anon func is execd when callback is been done did
+    {
+        flavorDiv.innerHTML = flavorText;
+
+        let typeEl = document.createElement('h3');
+        for(let type of pokemon.types)
+        {
+            typeEl.innerText += `${type} type pokemon`;
+        }
+        //ul terior moves
+        // let moveUl = document.createElement("ul");
+        // moveUl.innerHTML = "Moves:"
+        // for(move of pokemon.moves)
+        // {
+        //     moveUl.innerHTML += `<li>${move}</li>`;
+        // }
+        //also abliliteis
+        let ablityUl = document.createElement("ul");
+        ablityUl.innerHTML = "Abilities:"
+        for(abilitirityith of pokemon.abilities)
+        {
+            ablityUl.innerHTML += `<li>${abilitirityith}</li>`;
+        }
+        //shove zhe pokymone into a box and post it to html without 'fragile' tag
+        let div = document.createElement("div");
+        div.append(nameEl, numberEl, flavorDiv, typeEl, ablityUl);
+        div.setAttribute("class", "container");
+        targetNode.appendChild(div);
+    });
+}
+
+function createCarouselItem(pokemon)    //pokemon is object
 {
     //div with carousel-item classs and make img with d-block and w-100
     let carouselItem = document.createElement("div");
@@ -122,6 +125,7 @@ function createCarouselItem(pokemon)
     carouselImage.setAttribute("class", "d-block w-50");
     carouselImage.setAttribute("src", pokemon.sprite);
     carouselItem.appendChild(carouselImage);
+    createPokeElement(pokemon, carouselItem);
 
     var carouselInner = document.getElementsByClassName("carousel-inner")[0];
     carouselInner.appendChild(carouselItem);
