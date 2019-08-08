@@ -70,10 +70,6 @@ function createPokeElement(pokemon)
     }
     //shove zhe pokymone into a box and post it to html without 'fragile' tag
     let div = document.createElement("div");
-    div.appendChild(h1);
-    div.appendChild(h2);
-    div.appendChild(p);
-    div.appendChild(moveUl);
-    div.appendChild(ablityUl);
+    div.append(h1, h2, p, moveUl, ablityUl);
     document.body.appendChild(div);
 }
