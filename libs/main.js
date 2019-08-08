@@ -21,6 +21,7 @@ fetch(url)
     // document.body.style.backgroundImage = `url(${data.sprites.front_default})`
 })
 .catch(function(error){ console.log(error)});
+
 function getTypes(pokeJSON)
 {
     let types = [];
@@ -85,7 +86,7 @@ function createPokeElement(pokemon)
         //shove zhe pokymone into a box and post it to html without 'fragile' tag
         let div = document.createElement("div");
         div.append(img, h1, h2, flavorDiv, p, moveUl, ablityUl);
-        document.body.appendChild(div);
+        document.getElementById("poke_container").appendChild(div);
     });
 }
 function getFlavorText(flavorURL, callback)
@@ -109,31 +110,32 @@ function getFlavorText(flavorURL, callback)
 
 
 
-let urls = "https://pokeapi.co/api/v2/pokemon/";
-function proGamerMove()
-{
-    var max = 800;
-for(let i = 0; i < max; i++)
-{
-    xd(i + 1);
-}
-}
-function xd(pokeID)
-{
-var thisurl = `${urls}${pokeID}`;
-fetch(thisurl)
-.then((resp) => resp.json())
-.then(function(data) {
-    console.log(data);
-    let name = data.name;
-    let number = data.id;
-    let types = getTypes(data);
-    let moves = getMoves(data);
-    let abilities = getAbilities(data);
-    let chimchar = new Pokemon(name, number, types, moves , abilities);
-    console.log(chimchar);
-    createPokeElement(chimchar);
-    // document.body.style.backgroundImage = `url(${data.sprites.front_default})`
-})
-.catch(function(error){ console.log(error)});
-}
+// function proGamerMove()
+// {
+//     var max = 800;
+//     for(let i = 0; i < max; i++)
+//     {
+//         xd(i + 1);
+//     }
+// }
+// function xd(pokeID)
+// {
+//     let urls = "https://pokeapi.co/api/v2/pokemon/";
+
+//     var thisurl = urls + pokeID;
+//     fetch(thisurl)
+//     .then((resp) => resp.json())
+//     .then(function(data) {
+//         console.log(data);
+//         let name = data.name;
+//         let number = data.id;
+//         let types = getTypes(data);
+//         let moves = getMoves(data);
+//         let abilities = getAbilities(data);
+//         let flavorText = data.species.url;
+//         let pokkemon = new Pokemon(name, number, types, moves , abilities, sprite, flavorText);
+//         createPokeElement(pokkemon);
+//         // document.body.style.backgroundImage = `url(${data.sprites.front_default})`
+//     })
+//     .catch(function(error){ console.log(error)});
+// }
